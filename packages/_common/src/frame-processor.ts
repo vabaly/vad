@@ -9,9 +9,17 @@ import { log } from "./logging"
 
 const RECOMMENDED_FRAME_SAMPLES = [512, 1024, 1536]
 
+/**
+ * 背景知识：https://github.com/snakers4/silero-vad（一个预先训练的企业级语音活动检测器）
+ */
+
+// 1.1.1 选项
 export interface FrameProcessorOptions {
   /** Threshold over which values returned by the Silero VAD model will be considered as positively indicating speech.
    * The Silero VAD model is run on each frame. This number should be between 0 and 1.
+   */
+  /** 超过 Silero VAD 模型返回的值将被视为正向指示语音的阈值。
+   * Silero VAD 模型在每帧上运行。这个数字应该在 0 和 1 之间。
    */
   positiveSpeechThreshold: number
 
@@ -49,6 +57,7 @@ export const defaultFrameProcessorOptions: FrameProcessorOptions = {
   negativeSpeechThreshold: 0.5 - 0.15,
   preSpeechPadFrames: 1,
   redemptionFrames: 8,
+  // 目标帧大小（即期望每个输出帧包含的采样点数）
   frameSamples: 1536,
   minSpeechFrames: 3,
 }

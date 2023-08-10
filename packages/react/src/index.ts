@@ -54,8 +54,10 @@ function useEventCallback<T extends (...args: any[]) => any>(fn: T): T {
   ) as T
 }
 
+// ======> 1. React 使用的入口
 export function useMicVAD(options: Partial<ReactRealTimeVADOptions>) {
   const [reactOptions, vadOptions] = useOptions(options)
+  // 2. 还记得吗，下面这些状态都是 vad 实例的属性
   const [userSpeaking, updateUserSpeaking] = useReducer(
     (state: boolean, isSpeechProbability: number) =>
       isSpeechProbability > reactOptions.userSpeakingThreshold,
@@ -83,6 +85,7 @@ export function useMicVAD(options: Partial<ReactRealTimeVADOptions>) {
     const setup = async (): Promise<void> => {
       let myvad: MicVAD | null
       try {
+        // 2. useMicVAD 实际上就是初始化了一个 MicVAD 类
         myvad = await MicVAD.new(vadOptions)
       } catch (e) {
         setLoading(false)
